@@ -24,11 +24,25 @@ def randGen(letterPref, length):
     #WIP
 def keyWord(keyWordList, pw):     #Method that adds in keywords at random points within the random method
     count = 0
-    while (True):
-        start = random.randint(1, len(pw))
-        if start + len(keyWordList[count]) <= len(pw) + 1:      #Added words will start at position [start]
-            for x in range(start, start+len(keyWordList[count])):    #Range goes from Start (Inclusive) to start+len(keyWordList[count[]) (Exclusive)
-                pw = pw[:x] + keyWordList[x] + pw[x+1:]
+    holdB = 21
+    holdE = -1
+
+    while (True):   #Goes through each keyWord elment
+        while (True):   #Ensures keyword is placed into password
+            start = random.randint(1, len(pw))
+            if start + len(keyWordList[count]) <= len(pw):      #Added words will start at position [start]
+                for b in range(len(keyWordList[count])):
+                    if start+b <= holdE and start+b >= holdB:
+                        break
+                else:
+                    c = 0
+                    element = keyWordList[count]
+                    for x in range(start, start+len(keyWordList[count])):    #Range goes from Start (Inclusive) to start+len(keyWordList[count[]) (Exclusive)
+                        pw = pw[:x] + element[c] + pw[x+1:]
+                        c+=1
+                    holdB = start
+                    holdE = start+len(keyWordList[count])
+                    break
         count += 1
         if count == len(keyWordList):
             break
@@ -43,7 +57,7 @@ def chooseKeyWord(length):
     addWord = input("Would you like to add a key word to be included in your random password?\n1. Yes\n2. No\nKeep in mind adding a keyword may mess with your number/letter ratio preference\n")
     if addWord == "1":
         while (True):
-            keyWordstr = input("Enter the words you would like to have included in your password, add a space between each word and do not exeed the length limit\n")
+            keyWordstr = input("Enter the words you would like to have included in your password, add a space between each word\nThe word limit is two\n")
             keyWordList = keyWordstr.split()
             for x in keyWordList:
                 count += len(x)

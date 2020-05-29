@@ -1,5 +1,5 @@
 import unittest
-from PasswordGenerator import *
+from PasswordGenerator import keyWord
 
 class MyTest(unittest.TestCase):
     def test_keyWord(self):
