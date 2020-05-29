@@ -23,8 +23,16 @@ def randGen(letterPref, length):
 
     #WIP
 def keyWord(keyWordList, pw):     #Method that adds in keywords at random points within the random method
+    count = 0
     while (True):
         start = random.randint(1, len(pw))
+        if start + len(keyWordList[count]) <= len(pw) + 1:      #Added words will start at position [start]
+            for x in range(start, start+len(keyWordList[count])):    #Range goes from Start (Inclusive) to start+len(keyWordList[count[]) (Exclusive)
+                pw = pw[:x] + keyWordList[x] + pw[x+1:]
+        count += 1
+        if count == len(keyWordList):
+            break
+    return pw
 
 
 
@@ -32,8 +40,7 @@ def chooseKeyWord(length):
     count = 0
     if length == -1:
         length = 20
-    addWord = input("Would you like to add a key word to be included in your random password?\n1. Yes\n2. No\n")
-    print("Keep in mind adding a keyword may mess with your number/letter ratio preference")
+    addWord = input("Would you like to add a key word to be included in your random password?\n1. Yes\n2. No\nKeep in mind adding a keyword may mess with your number/letter ratio preference\n")
     if addWord == "1":
         while (True):
             keyWordstr = input("Enter the words you would like to have included in your password, add a space between each word and do not exeed the length limit\n")
@@ -64,6 +71,7 @@ def main():
         #-1 indicates that length will be random
         length = -1
 
+    #keyWordList will be -1 if no keywords are chosen
     keyWordList = chooseKeyWord(length)
 
     input("Press enter to generate a new random password")
@@ -71,7 +79,7 @@ def main():
 
     #System adds keywords after generating random password
     if keyWordList != -1:
-        keyWord(keyWordList, pw)
+        pw = keyWord(keyWordList, pw)
 
     print(pw)
 main()
